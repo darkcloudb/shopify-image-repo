@@ -1,0 +1,5 @@
+{% extends 'base.html' %} {% block content %} {% for post in posts %}
+<strong>{{ post.author.username }}</strong><br />
+<img src="{{ post.image.url }}" width="400" height="400" />
+<p><em>{{ post.created_at }}</em><br />{{ post.body }}</p>
+{% endfor %} {% endblock %}
