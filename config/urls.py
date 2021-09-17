@@ -22,5 +22,8 @@ from shopigram import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.PostShow.as_view(), name='home'),
-    path('post/', views.PostImage.as_view())
+    path('post/', views.PostImage.as_view()),
+    path('signup/', views.SignUpView.as_view()),
+    path('login/', views.LoginView.as_view()),
+    path('logout/', views.LogoutView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
