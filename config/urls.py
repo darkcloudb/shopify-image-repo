@@ -22,6 +22,7 @@ from shopigram import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.PostShow.as_view(), name='home'),
+    # path('post/', views.post_image),
     path('post/', views.PostImage.as_view()),
     path('signup/', views.SignUpView.as_view()),
     path('login/', views.LoginView.as_view()),

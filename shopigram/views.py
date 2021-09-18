@@ -33,6 +33,7 @@ class PostImage(View):
                 author=request.user
                 )
             return redirect(reverse('home', args=(post.id,)))
+        return render(request, 'generic_form.html', {'form': form})
 
 
 class SignUpView(View):

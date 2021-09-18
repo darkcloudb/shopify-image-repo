@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Model to handle the image posts
 class Post(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to='media/', null=True, blank=True)
     body = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
