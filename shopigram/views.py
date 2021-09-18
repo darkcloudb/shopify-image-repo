@@ -1,8 +1,6 @@
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponse
 from shopigram.forms import PostImg
 from django.shortcuts import render, redirect, reverse
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
 from django.views.generic import View
 from shopigram.models import Post
 from django.contrib.auth.models import User
@@ -12,13 +10,13 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
-class PostShow(View):
+class PostShow(LoginRequiredMixin, View):
     def get(self, request):
         posts = Post.objects.all().order_by('-created_at')
         return render(request, 'index.html', {'posts': posts})
 
 
-class PostImage(View):
+class PostImage(LoginRequiredMixin, View):
     def get(self, request):
         form = PostImg()
         return render(request, 'generic_form.html', {'form': form})
@@ -33,14 +31,30 @@ class PostImage(View):
                     body=data['body'],
                     author=request.user
                     )
-                return redirect('/')
+                return redirect(reverse("home"))
         return render(request, 'generic_form.html', {'form': form})
+
+
+class PostDetail( LoginRequiredMixin, View):
+    def get(self, request, post_id):
+        post = Post.objects.filter(id=post_id).first()
+        return render(request, 'post_detail.html', {'post': post})
+
+
+class DeletePost( LoginRequiredMixin, View):
+    def get(self, request, post_id=None):
+        post = Post.objects.get(id=post_id)
+        if request.user.is_staff or request.user == post.author:
+            post.delete()
+            return redirect(reverse('home'))
+        else:
+            return HttpResponse("Access Denied - Need staff/admin permissions")
 
 
 class SignUpView(View):
     def get(self, request):
         form = SignUpForm()
-        return render(request, 'generic_form.html', {'form': form})
+        return render(request, 'signup.html', {'form': form})
 
     def post(self, request):
         form = SignUpForm(request.POST)

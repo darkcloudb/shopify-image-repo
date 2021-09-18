@@ -22,10 +22,11 @@ from shopigram import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.PostShow.as_view(), name='home'),
-    # path('post/', views.post_image),
     path('post/', views.PostImage.as_view()),
+    path('post/<int:post_id>/', views.PostDetail.as_view()),
+    path('delete/<int:post_id>/', views.DeletePost.as_view()),
     path('signup/', views.SignUpView.as_view()),
     path('login/', views.LoginView.as_view()),
     path('logout/', views.LogoutView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
