@@ -24,15 +24,16 @@ class PostImage(View):
         return render(request, 'generic_form.html', {'form': form})
 
     def post(self, request):
-        form = PostImg(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            post = Post.objects.create(
-                image=data.get('image'),
-                body=data.get('body'),
-                author=request.user
-                )
-            return redirect(reverse('home', args=(post.id,)))
+        if request.method == 'POST':
+            form = PostImg(request.POST, request.FILES)
+            if form.is_valid():
+                data = form.cleaned_data
+                post = Post.objects.create(
+                    image=data['image'],
+                    body=data['body'],
+                    author=request.user
+                    )
+                return redirect('/')
         return render(request, 'generic_form.html', {'form': form})
 
 

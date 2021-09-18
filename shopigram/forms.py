@@ -9,5 +9,5 @@ class SignUpForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class PostImg(forms.Form):
-    image = forms.ImageField(required=False)
+    image = forms.ImageField()
     body = forms.CharField(widget=forms.Textarea)
